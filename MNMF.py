@@ -1,27 +1,10 @@
 ## Nonnegative Matrix Factorization
 import numpy as np
 import sklearn.datasets as ds
-iris=ds.load_iris()
-X=iris.data
-XT=X.T.copy() ## each column is an instance
-K=3 ## number of components (clusters)
-
-C1=np.random.choice(K,XT.shape[1])  ## initial clustering (randomly)
-### or initialize with the real clusters
-#C1[0:50]=0
-#C1[50:100]=1
-#C1[100:]=2
-##
-
-
-wget https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits.tra
-data=np.loadtxt(open("pendigits-1.csv", "r"), delimiter=",")
-X=data[:,:-1]/100
 from sklearn.cluster import KMeans
-Km = KMeans(n_clusters=2).fit(X)
 
-C1=Km.predict(X)
-C2=MNMF(C1,X.T,2,.5)
+### shell command to download pen digit dataset
+###wget https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits.tra
 
 ## objective function
 def objfct(X,V,U,S,lmbd=.2):
@@ -84,3 +67,21 @@ def MNMF(C1,X,K,thr=1,lmbd=.2):
   ### new clustering
   C2=np.argmax(V,1)
   return C2
+
+if __name__ == "__main__":
+  #iris=ds.load_iris()
+  #X=iris.data
+  #XT=X.T.copy() ## each column is an instance
+  #K=3 ## number of components (clusters)
+  #C1=np.random.choice(K,XT.shape[1])  ## initial clustering (randomly)
+  #### or initialize with the real clusters
+  ##C1[0:50]=0
+  ##C1[50:100]=1
+  ##C1[100:]=2
+  ###
+  data=np.loadtxt(open("pendigits-1.csv", "r"), delimiter=",")
+  X=data[:,:-1]/100
+  Km = KMeans(n_clusters=2).fit(X)
+  C1=Km.predict(X)
+  C2=MNMF(C1,X.T,2,.5)
+	
